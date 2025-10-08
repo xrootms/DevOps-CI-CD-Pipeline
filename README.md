@@ -1,4 +1,4 @@
-# DevOps-CI-CD-Pipeline !!
+# DevOps-CI-CD-Pipeline !
 
 
 | Stage                    | Purpose                  |

@@ -6,6 +6,8 @@
 
 # Install OpenJDK 17 JRE Headless
 sudo apt install openjdk-17-jre-headless -y
+echo "Waiting for 30 seconds before installing the jenkins package..."
+sleep 30
 
 # Download Jenkins GPG key
 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \

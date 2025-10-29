@@ -1,46 +1,4 @@
-## Installing Jenkins on Ubuntu
-
-
-```bash
-#!/bin/bash
-
-# Install OpenJDK 17 JRE Headless
-sudo apt install openjdk-17-jre-headless -y
-echo "Waiting for 30 seconds before installing the jenkins package..."
-sleep 30
-
-# Download Jenkins GPG key
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
-  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-
-# Add Jenkins repository to package manager sources
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
-
-# Update package manager repositories
-sudo apt-get update
-
-# Install Jenkins
-sudo apt-get install jenkins -y
-```
-
-Save this script in a file, for example, `install_jenkins.sh`, and make it executable using:
-
-```bash
-chmod +x install_jenkins.sh
-```
-
-Then, you can run the script using:
-
-```bash
-./install_jenkins.sh
-```
-
-This script will automate the installation process of OpenJDK 17 JRE Headless and Jenkins.
-
-
-## Install docker for future use
+# SonarQube setup
 
 ```bash
 #!/bin/bash
@@ -82,3 +40,20 @@ Then, you can run the script using:
 ```bash
 ./install_docker.sh
 ```
+
+## Create Sonarqube Docker container
+To run SonarQube in a Docker container with the provided command, you can follow these steps:
+
+1. Open your terminal or command prompt.
+
+2. Run the following command:
+
+```bash
+docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+```
+
+This command will download the `sonarqube:lts-community` Docker image from Docker Hub if it's not already available locally. Then, it will create a container named "sonar" from this image, running it in detached mode (`-d` flag) and mapping port 9000 on the host machine to port 9000 in the container (`-p 9000:9000` flag).
+
+3. Access SonarQube by opening a web browser and navigating to `http://VmIP:9000`.
+
+This will start the SonarQube server, and you should be able to access it using the provided URL. If you're running Docker on a remote server or a different port, replace `localhost` with the appropriate hostname or IP address and adjust the port accordingly.

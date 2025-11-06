@@ -5,6 +5,6 @@ variable "ap_availability_zone" {}
 variable "cidr_private_subnet" {}
 
 
-variable "public_key" {}
+# variable "public_key" {}
 
-variable "ec2_ami_id" {}
+# variable "ec2_ami_id" {}

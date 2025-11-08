@@ -6,5 +6,6 @@ variable "cidr_private_subnet" {}
 
 
 # variable "public_key" {}
+# variable "key_name" {}
 
-# variable "ec2_ami_id" {}
+variable "ec2_ami_id" {}

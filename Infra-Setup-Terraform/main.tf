@@ -11,9 +11,35 @@ module "networking" {
 module "security_groups" {
   source              = "./security-groups"
   ec2_sg_name         = "SG for EC2 to enable SSH(22), HTTPS(443) and HTTP(80)"
-  k8s_cluster_sg_name = "SG for k8s to enable 465, 30000-32767, 25, 3000-10000 & 6443"
   vpc_id              = module.networking.devops_proj_1_vpc_id
-  # ec2_jenkins_sg_name = "Allow port 8080 for jenkins"
+  ec2_jenkins_sg_name = "Allow port 8080 for jenkins"
+  ec2_sonar_sg_name   = "Allow port 9000 for sonar"
   # ec2_nexus_sg_name   = "Allow port 8081 for nexus"
-  # ec2_sonar_sg_name   = "Allow port 9000 for sonar"
+  # k8s_cluster_sg_name = "SG for k8s to enable 465, 30000-32767, 25, 3000-10000 & 6443"
+}
+
+module "jenkins" {
+  source                    = "./jenkins"
+  ami_id                    = var.ec2_ami_id
+  instance_type             = "t2.micro"
+  tag_name                  = "Jenkins:Ubuntu 22.04 EC2"
+  subnet_id                 = tolist(module.networking.devops_proj_1_public_subnets_id)[0]
+  sg_for_jenkins            = [module.security_groups.sg_ec2_sg_ssh_http_https_id, module.security_groups.sg_ec2_jenkins_port_8080_id]
+  enable_public_ip_address  = true
+  user_data_install_jenkins = templatefile("./jenkins/jenkins-runner-script/jenkins-installer.sh", {})
+  key_name                  = aws_key_pair.main_key.key_name
+  #public_key                = var.public_key
+}
+
+module "sonar" {
+  source                    = "./sonar"
+  ami_id                    = var.ec2_ami_id
+  instance_type             = "t2.micro"
+  tag_name                  = "Sonar:Ubuntu 22.04 EC2"
+  subnet_id                 = tolist(module.networking.devops_proj_1_public_subnets_id)[0]
+  sg_for_sonar              = [module.security_groups.sg_ec2_sg_ssh_http_https_id, module.security_groups.sg_ec2_sonar_port_9000_id]
+  enable_public_ip_address  = true
+  user_data_install_sonar   = templatefile("./sonar/sonar-runner-script/sonar-installer.sh", {})
+  key_name                  = aws_key_pair.main_key.key_name
+  #public_key                = var.public_key
 }

@@ -2,7 +2,7 @@ variable "ec2_sg_name" {}
 variable "vpc_id" {}
 variable "ec2_jenkins_sg_name" {}
 variable "ec2_sonar_sg_name" {}
-# variable "ec2_nexus_sg_name" {}
+variable "ec2_nexus_sg_name" {}
 variable "sg_ports" { default = [22, 80, 443] }
 
 # variable "k8s_cluster_sg_name" {}
@@ -28,9 +28,9 @@ output "sg_ec2_sonar_port_9000_id" {
   value = aws_security_group.ec2_sonar_port_9000.id
 }
 
-# output "sg_ec2_nexus_port_8081_id" {
-#   value = aws_security_group.ec2_nexus_port_8081.id
-# }
+output "sg_ec2_nexus_port_8081_id" {
+  value = aws_security_group.ec2_nexus_port_8081.id
+}
 
 
 
@@ -103,21 +103,21 @@ resource "aws_security_group" "ec2_sonar_port_9000" {
 
 
 
-# #----SG for nexus port 8081----
-# resource "aws_security_group" "ec2_nexus_port_8081" {
-#   name        = var.ec2_nexus_sg_name
-#   description = "Enable the Port 8081 for nexus"
-#   vpc_id      = var.vpc_id
+#----SG for nexus port 8081----
+resource "aws_security_group" "ec2_nexus_port_8081" {
+  name        = var.ec2_nexus_sg_name
+  description = "Enable the Port 8081 for nexus"
+  vpc_id      = var.vpc_id
 
-#   ingress {
-#     from_port   = 8081
-#     to_port     = 8081
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"] # security_groups = [ALB Security Group ID] ,Only ALB can reach Nexus:8081
-#     description = "Allow 8081 port to access nexus from anywhere"
-#   }
-#   tags = { Name = "Nexus SG: 8081" }
-# }
+  ingress {
+    from_port   = 8081
+    to_port     = 8081
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # security_groups = [ALB Security Group ID] ,Only ALB can reach Nexus:8081
+    description = "Allow 8081 port to access nexus from anywhere"
+  }
+  tags = { Name = "Nexus SG: 8081" }
+}
 
 
 

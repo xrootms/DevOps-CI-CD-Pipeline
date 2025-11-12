@@ -5,16 +5,16 @@ variable "ec2_sonar_sg_name" {}
 variable "ec2_nexus_sg_name" {}
 variable "sg_ports" { default = [22, 80, 443] }
 
-# variable "k8s_cluster_sg_name" {}
-# variable "k8s_cluster_sg_ports" {
-#   default = [
-#     { from = 25,     to = 25 },        #SMTP
-#     { from = 465,    to = 465 },       #SMTPS
-#     { from = 6443,   to = 6443 },      # Kubernetes API server
-#     { from = 3000,   to = 10000 },     # App / NodePort range (custom)
-#     { from = 30000,  to = 32767 },     # Kubernetes NodePort range
-#   ]
-# }
+variable "k8s_cluster_sg_name" {}
+variable "k8s_cluster_sg_ports" {
+  default = [
+    { from = 25,     to = 25 },        #SMTP
+    { from = 465,    to = 465 },       #SMTPS
+    { from = 6443,   to = 6443 },      # Kubernetes API server
+    { from = 3000,   to = 10000 },     # App / NodePort range (custom)
+    { from = 30000,  to = 32767 },     # Kubernetes NodePort range
+  ]
+}
 
 output "sg_ec2_sg_ssh_http_https_id" {
   value = aws_security_group.ec2_sg_ssh_http_https.id
@@ -34,9 +34,9 @@ output "sg_ec2_nexus_port_8081_id" {
 
 
 
-# output "k8s_cluster_sg_id" {
-#   value = aws_security_group.k8s_cluster_sg.id
-# }
+output "sg_ec2_k8s_cluster_id" {
+  value = aws_security_group.k8s_cluster_sg.id
+}
 
 
 #----SG for ports: 22, 80, 443----
@@ -122,33 +122,33 @@ resource "aws_security_group" "ec2_nexus_port_8081" {
 
 
 
-# #----SG for k8s ports: 465, 30000-32767, 25, 3000-10000 & 6443----
-# resource "aws_security_group" "k8s_cluster_sg" {
-#   name        = var.k8s_cluster_sg_name
-#   vpc_id      = var.vpc_id
-#   description = "Enable the Port 465, 30000-32767, 25, 3000-10000 & 6443"
+#----SG for k8s ports: 465, 30000-32767, 25, 3000-10000 & 6443----
+resource "aws_security_group" "k8s_cluster_sg" {
+  name        = var.k8s_cluster_sg_name
+  vpc_id      = var.vpc_id
+  description = "Enable the Port 465, 30000-32767, 25, 3000-10000 & 6443"
 
-#   #Allow all outbound traffic 
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#     description = "Allow outgoing request to anywhere"
-#   }
-#   tags = { Name = "Security Group: 465, 30000-32767, 25, 3000-10000 & 6443" }
-# }
+  #Allow all outbound traffic 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow outgoing request to anywhere"
+  }
+  tags = { Name = "Security Group: 465, 30000-32767, 25, 3000-10000 & 6443" }
+}
 
-# #Ingress rules using count
-# resource "aws_security_group_rule" "k8s_cluster_sg_ingress" {
-#   count             = length(var.k8s_cluster_sg_ports)
-#   type              = "ingress"
-#   from_port         = var.k8s_cluster_sg_ports[count.index].from
-#   to_port           = var.k8s_cluster_sg_ports[count.index].to
-#   protocol          = "tcp"
-#   cidr_blocks       = ["0.0.0.0/0"]
-#   security_group_id = aws_security_group.k8s_cluster_sg.id
-#   description       = "Allow ports ${var.k8s_cluster_sg_ports[count.index].from}-${var.k8s_cluster_sg_ports[count.index].to} from anywhere"
-# }
+#Ingress rules using count
+resource "aws_security_group_rule" "k8s_cluster_sg_ingress" {
+  count             = length(var.k8s_cluster_sg_ports)
+  type              = "ingress"
+  from_port         = var.k8s_cluster_sg_ports[count.index].from
+  to_port           = var.k8s_cluster_sg_ports[count.index].to
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.k8s_cluster_sg.id
+  description       = "Allow ports ${var.k8s_cluster_sg_ports[count.index].from}-${var.k8s_cluster_sg_ports[count.index].to} from anywhere"
+}
 
 

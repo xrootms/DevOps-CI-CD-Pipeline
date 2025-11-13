@@ -3,16 +3,16 @@
 This document describes **Segment 3: CI/CD Setup** for a full-stack DevOps project using **Jenkins**, **SonarQube**, **Nexus**, **Docker**, and **Kubernetes**.
 
 ---
-
-## 📋 Prerequisites
+# SEGMENT 1 : Infra setup
+## Prerequisites
 Before proceeding, ensure:
 - Jenkins is installed and running.
 - SonarQube, Nexus, and Docker are accessible from Jenkins.
 - GitHub repository is connected.
 
 ---
-
-## ⚙️ Step 1: Install Required Jenkins Plugins
+# SEGMENT 2 : CICD
+## Step 1: Install Required Jenkins Plugins
 
 **Path:** `Jenkins > Manage Jenkins > Plugins > Available plugins`
 
@@ -25,14 +25,13 @@ Install the following plugins:
 | 3 | Docker, Docker Pipeline, docker-build-step, CloudBees Docker Build and Publish |
 | 4 | OWASP Dependency-Check |
 | 5 | Eclipse Temurin installer (JDK) |
-| 6 | Config File Provider (for Nexus) |
-| 7 | Pipeline Maven Integration Plugin |
-| 8 | Kubernetes |
-| 9 | Kubernetes CLI |
+| 6 | Config File Provider (for Nexus) (Pipeline Maven Integration Plugin) |
+| 7 | Kubernetes |
+| 8 | Kubernetes CLI |
 
 ---
 
-## 🧰 Step 2: Configure Tools
+## Step 2: Configure Tools in jenkins
 
 **Path:** `Jenkins > Manage Jenkins > Tools`
 
@@ -47,13 +46,12 @@ Install the following plugins:
 
 ---
 
-## 🔐 Step 3: Configure Credentials
+## Step 3: Configure Credentials in Jenkins
 
 ### 1️⃣ SonarQube Token
 1. Go to **SonarQube → Administration → Security → Users → Tokens**  
-2. Generate a new token (e.g., `jenkins-token`)
-3. In Jenkins:  
-   `Manage Jenkins > Credentials > System > Add Credentials`  
+   - Generate a new token (name, `token`)
+2. In **Jenkins:** `Manage Jenkins > Credentials > System > Add Credentials`  
    - Kind: `Secret text`  
    - Secret: `<paste token>`  
    - ID: `sonar-token`
@@ -67,7 +65,7 @@ Install the following plugins:
 
 ---
 
-## 🌐 Step 4: Configure SonarQube Server in Jenkins
+## Step 4: Configure SonarQube Server in Jenkins
 
 **Path:** `Jenkins > Manage Jenkins > System > SonarQube Servers`
 
@@ -81,7 +79,7 @@ Install the following plugins:
 
 ---
 
-## 🧱 Step 5: Configure Nexus in Jenkins
+## Step 5: Configure Nexus in Jenkins
 
 **Path:** `Jenkins > Manage Jenkins > Managed Files > Add a new Config`
 
@@ -103,8 +101,9 @@ Install the following plugins:
   <password>1111</password>
 </server>
 ```
+✅ Click **Submit**
 
-### Add Nexus Repositories to `pom.xml`
+### Add URL of Nexus Repositories to `pom.xml`
 
 ```xml
 <repository>
@@ -120,7 +119,7 @@ Install the following plugins:
 
 ---
 
-## 🧩 Step 6: Create a Jenkins Pipeline Job
+## Step 6: Create a Jenkins Pipeline Job
 
 **Path:** `Jenkins > New Item`
 

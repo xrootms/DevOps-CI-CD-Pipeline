@@ -46,11 +46,11 @@ Install the following plugins:
 
 ---
 
-## Step 3: Configure Credentials in Jenkins
+## Step 3: Setup Credentials for sonarQube server & Docker Hub in Jenkins
 
 ### 1️⃣ SonarQube Token
 1. Go to **SonarQube → Administration → Security → Users → Tokens**  
-   - Generate a new token (name, `token`)
+   - Generate a new token (name: `token`)
 2. In **Jenkins:** `Manage Jenkins > Credentials > System > Add Credentials`  
    - Kind: `Secret text`  
    - Secret: `<paste token>`  

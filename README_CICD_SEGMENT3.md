@@ -11,7 +11,7 @@ Before proceeding, ensure:
 - GitHub repository is connected.
 
 ---
-# SEGMENT 2 : CICD
+# SEGMENT 2 : CI/CD
 ## Step 1: Install Required Jenkins Plugins
 
 **Path:** `Jenkins > Manage Jenkins > Plugins > Available plugins`
@@ -25,9 +25,10 @@ Install the following plugins:
 | 3 | Docker, Docker Pipeline, docker-build-step, CloudBees Docker Build and Publish |
 | 4 | OWASP Dependency-Check |
 | 5 | Eclipse Temurin installer (JDK) |
-| 6 | Config File Provider (for Nexus) (Pipeline Maven Integration Plugin) |
-| 7 | Kubernetes |
+| 6 | Config File Provider |
+| 7 | Pipeline Maven Integration |
 | 8 | Kubernetes CLI |
+| 9 | Kubernetes |
 
 ---
 

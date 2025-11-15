@@ -1,4 +1,4 @@
-# RBAC Setup 
+## RBAC Setup 
 
 This guide explains how to create a namespace-scoped ServiceAccount,
 Role, RoleBinding, and Token for Jenkins using Kubernetes RBAC best
@@ -7,7 +7,7 @@ This setup giving Jenkins access only within the `webapps` namespace.
 
 ------------------------------------------------------------------------
 
-## `jenkins-rbac.yaml`
+#### `jenkins-rbac.yaml`
 
 Apply all resources using one combined manifest:
 

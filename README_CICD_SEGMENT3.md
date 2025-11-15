@@ -64,6 +64,16 @@ Install the following plugins:
 - Password: `<dockerhub-password>`  
 - ID: `docker-cred`
 
+### 3️⃣ K8s Token
+1. Go to **k8s master node**  
+   - kubectl cluster-info (Find K8s API Server Endpoint, will be required in k8s deployment stage.)
+   - kubectl -n webapps describe secret jenkins-token
+   - Copy the token
+2. In **Jenkins:** `Manage Jenkins > Credentials > System > Add Credentials`
+   - Kind: `Secret text`  
+   - Secret: `<paste token>`  
+   - ID: `k8s-token`
+
 ---
 
 ## Step 4: Configure SonarQube Server in Jenkins

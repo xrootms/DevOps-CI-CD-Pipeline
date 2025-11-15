@@ -31,15 +31,24 @@ metadata:
 name: jenkins-deployer
 namespace: webapps
 rules:
-- apiGroups: ["", "apps", "batch"]
+  - apiGroups:
+      - ""
+      - apps
+      - batch
+      - networking.k8s.io     # only if needed
+      - autoscaling           # only if needed
 resources:
-- pods
-- pods/log
-- deployments
-- replicasets
-- services
-- configmaps
-- secrets
+      - pods
+      - pods/log
+      - deployments
+      - replicasets
+      - services
+      - configmaps
+      - secrets
+      - jobs
+      - cronjobs
+      - ingresses             # only if using networking.k8s.io
+      - horizontalpodautoscalers   # only if using autoscaling
 verbs:
 - get
 - list

@@ -49,14 +49,7 @@ resources:
       - cronjobs
       - ingresses             # only if using networking.k8s.io
       - horizontalpodautoscalers   # only if using autoscaling
-verbs:
-- get
-- list
-- watch
-- create
-- update
-- patch
-- delete
+verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

@@ -1,15 +1,13 @@
-# Jenkins RBAC Setup (Industry Standard)
+# RBAC Setup 
 
 This guide explains how to create a namespace-scoped ServiceAccount,
 Role, RoleBinding, and Token for Jenkins using Kubernetes RBAC best
 practices.
-
-This setup follows **industry-standard least-privilege principles**,
-giving Jenkins access only within the `webapps` namespace.
+This setup giving Jenkins access only within the `webapps` namespace.
 
 ------------------------------------------------------------------------
 
-## AML File: `jenkins-rbac.yaml`
+## `jenkins-rbac.yaml`
 
 Apply all resources using one combined manifest:
 
@@ -96,7 +94,7 @@ kubectl apply -f jenkins-rbac.yaml
 
 ------------------------------------------------------------------------
 
-## 🔍 View the Secret Details
+## View the Secret Details
 
 ### Option 1 --- Describe the secret
 
@@ -120,18 +118,6 @@ kubectl -n webapps get secret jenkins-token -o jsonpath='{.data.token}' | base64
 
 This will print the **token string** that Jenkins will use for
 authentication.
-
-------------------------------------------------------------------------
-
-## Final Step --- Add Token to Jenkins
-Go to:
-**Jenkins → Manage Jenkins → Manage Credentials → Add Credential**
-Choose:
-- **Kind:** Secret Text (or Kubernetes Bearer Token depending on plugin)
-- **Secret:** paste the extracted token
-- **ID:** k8s-jenkins-token (or any chosen name)
-
-Use this credential in your Kubernetes deploy pipeline.
 
 ------------------------------------------------------------------------
 

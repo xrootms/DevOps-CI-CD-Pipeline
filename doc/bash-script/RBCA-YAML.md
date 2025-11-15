@@ -1,57 +1,81 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: webapps
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: jenkins
-  namespace: webapps
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: jenkins-deployer
-  namespace: webapps
-rules:
-  - apiGroups: ["", "apps", "batch"]
-    resources:
-      - pods
-      - pods/log
-      - deployments
-      - replicasets
-      - services
-      - configmaps
-      - secrets
-    verbs:
-      - get
-      - list
-      - watch
-      - create
-      - update
-      - patch
-      - delete
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: jenkins-deployer-binding
-  namespace: webapps
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: jenkins-deployer
-subjects:
-  - kind: ServiceAccount
-    name: jenkins
-    namespace: webapps
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: jenkins-token
-  namespace: webapps
-  annotations:
-    kubernetes.io/service-account.name: jenkins
-type: kubernetes.io/service-account-token
+# Jenkins RBAC Setup (Industry Standard)
+
+This guide explains how to create a namespace-scoped ServiceAccount,
+Role, RoleBinding, and Token for Jenkins using Kubernetes RBAC best
+practices.
+
+This setup follows **industry-standard least-privilege principles**,
+giving Jenkins access only within the `webapps` namespace.
+
+------------------------------------------------------------------------
+
+## AML File: `jenkins-rbac.yaml`
+
+Apply all resources using one combined manifest:
+
+``` yaml
+(apiVersion YAML omitted for brevity in this preview)
+```
+
+(Use the full YAML from your canvas document.)
+
+------------------------------------------------------------------------
+
+## Apply the RBAC Resources
+
+Run:
+
+``` bash
+kubectl apply -f jenkins-rbac.yaml
+```
+
+------------------------------------------------------------------------
+
+## 🔍 View the Secret Details
+
+### Option 1 --- Describe the secret
+
+``` bash
+kubectl -n webapps describe secret jenkins-token
+```
+
+### Option 2 --- View full YAML
+
+``` bash
+kubectl -n webapps get secret jenkins-token -o yaml
+```
+
+------------------------------------------------------------------------
+
+## Extract the ServiceAccount Token
+
+``` bash
+kubectl -n webapps get secret jenkins-token -o jsonpath='{.data.token}' | base64 -d
+```
+
+This will print the **token string** that Jenkins will use for
+authentication.
+
+------------------------------------------------------------------------
+
+## Final Step --- Add Token to Jenkins
+
+Go to:
+
+**Jenkins → Manage Jenkins → Manage Credentials → Add Credential**
+
+Choose: - **Kind:** Secret Text (or Kubernetes Bearer Token depending on
+plugin) - **Secret:** *paste the extracted token* - **ID:**
+`k8s-jenkins-token`
+
+------------------------------------------------------------------------
+
+## Summary
+
+-   Namespace `webapps` created\
+-   Jenkins ServiceAccount created\
+-   Role with least-privilege permissions\
+-   RoleBinding applied\
+-   Token generated manually (Kubernetes 1.24+ behavior)\
+-   Token used for Jenkins Kubernetes integration
+

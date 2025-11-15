@@ -5,10 +5,11 @@ This document describes **Segment 3: CI/CD Setup** for a full-stack DevOps proje
 ---
 # SEGMENT 1 : Infra setup
 ## Prerequisites
-Before proceeding, ensure:
+Before starting the CI/CD pipeline setup, ensure the following components are in place:
 - Jenkins is installed and running.
-- SonarQube, Nexus, and Docker are accessible from Jenkins.
-- GitHub repository is connected.
+- SonarQube installed and running.
+- Nexus installed and running.
+- Kubernetes Cluster created and running with RBAC configured.
 
 ---
 # SEGMENT 2 : CI/CD

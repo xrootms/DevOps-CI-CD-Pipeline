@@ -84,7 +84,7 @@ type: kubernetes.io/service-account-token
 
 ------------------------------------------------------------------------
 
-## Apply the RBAC Resources
+### Apply the RBAC Resources
 
 Run:
 
@@ -94,15 +94,15 @@ kubectl apply -f jenkins-rbac.yaml
 
 ------------------------------------------------------------------------
 
-## View the Secret Details
+### View the Secret Details
 
-### Option 1 --- Describe the secret
+#### Option 1 --- Describe the secret
 
 ``` bash
 kubectl -n webapps describe secret jenkins-token
 ```
 
-### Option 2 --- View full YAML
+#### Option 2 --- View full YAML
 
 ``` bash
 kubectl -n webapps get secret jenkins-token -o yaml
@@ -110,7 +110,7 @@ kubectl -n webapps get secret jenkins-token -o yaml
 
 ------------------------------------------------------------------------
 
-## Extract the ServiceAccount Token
+#### Extract the ServiceAccount Token
 
 ``` bash
 kubectl -n webapps get secret jenkins-token -o jsonpath='{.data.token}' | base64 -d
@@ -121,7 +121,7 @@ authentication.
 
 ------------------------------------------------------------------------
 
-## Summary
+### Summary
 
 -   Namespace `webapps` created\
 -   Jenkins ServiceAccount created\

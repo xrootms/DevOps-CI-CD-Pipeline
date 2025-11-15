@@ -179,33 +179,8 @@ pipeline {
 - ✅ SonarQube and Nexus integrations visible in logs
 - 
 
-
-
-## ✅ Verification Checklist
-
-| Stage | Expected Result |
-|--------|------------------|
-| - **Git Checkout** | ✅ Repository cloned successfully ![Git Checkout](docs/stage1-git-checkout.png) |
-| - **Compile** | ✅ Code compiles without errors ![Compile](docs/stage2-compile.png) |
-| - **Unit Tests** | ✅ Tests executed / skipped as defined ![Unit Tests](docs/stage3-tests.png) |
-| - **SonarQube** | ✅ Analysis visible in SonarQube dashboard ![SonarQube](docs/stage4-sonarqube.png) |
-| - **Nexus** | ✅ Artifacts uploaded successfully ![Nexus](docs/stage5-nexus.png) |
-| - **Docker** | ✅ Image pushed to Docker Hub ![Docker](docs/stage6-docker.png) |
-| - **Deploy** | ✅ Application deployed to Kubernetes ![Deploy](docs/stage7-deploy.png) |
-
-
 ---
 
-## 📁 Directory Summary
-
-```
-DevOps-CI-CD-Pipeline/
-├── pom.xml
-├── Jenkinsfile (optional)
-├── README.md
-└── src/
-    └── main/
-```
 
 ---
 

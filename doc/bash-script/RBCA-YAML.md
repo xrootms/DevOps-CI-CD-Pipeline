@@ -124,6 +124,22 @@ Choose: - **Kind:** Secret Text (or Kubernetes Bearer Token depending on
 plugin) - **Secret:** *paste the extracted token* - **ID:**
 `k8s-jenkins-token`
 
+🎯 Final Step — Add Token to Jenkins
+
+Go to:
+
+Jenkins → Manage Jenkins → Manage Credentials → Add Credential
+
+Choose:
+
+Kind: Secret Text (or Kubernetes Bearer Token depending on plugin)
+
+Secret: paste the extracted token
+
+ID: k8s-jenkins-token (or any chosen name)
+
+Use this credential in your Kubernetes deploy pipeline.
+
 ------------------------------------------------------------------------
 
 ## Summary
